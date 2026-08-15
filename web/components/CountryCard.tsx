@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
+import { useTranslation } from "react-i18next";
 import { formatPopulation, type Country } from "shared";
 
 function CountryCardComponent({ country }: { country: Country }) {
+  const { t } = useTranslation();
+  const region = t(`regions.${country.region}`, { defaultValue: country.region });
+
   return (
     <Link
       href={`/country/${country.uuid}`}
@@ -12,7 +18,7 @@ function CountryCardComponent({ country }: { country: Country }) {
       {country.flagPng ? (
         <Image
           src={country.flagPng}
-          alt={`Flag of ${country.name}`}
+          alt={t("detail.flagAccessibilityLabel", { name: country.name })}
           width={64}
           height={44}
           className="h-11 w-16 rounded object-cover"
@@ -23,16 +29,16 @@ function CountryCardComponent({ country }: { country: Country }) {
       <h2 className="font-semibold">{country.name}</h2>
       <dl className="space-y-0.5 text-sm text-foreground/70">
         <div>
-          <dt className="inline font-medium">Capital: </dt>
+          <dt className="inline font-medium">{t("detail.capital")}: </dt>
           <dd className="inline">{country.capital}</dd>
         </div>
         <div>
-          <dt className="inline font-medium">Population: </dt>
+          <dt className="inline font-medium">{t("detail.population")}: </dt>
           <dd className="inline">{formatPopulation(country.population)}</dd>
         </div>
         <div>
-          <dt className="inline font-medium">Region: </dt>
-          <dd className="inline">{country.region}</dd>
+          <dt className="inline font-medium">{t("detail.region")}: </dt>
+          <dd className="inline">{region}</dd>
         </div>
       </dl>
     </Link>

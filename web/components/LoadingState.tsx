@@ -1,6 +1,16 @@
+"use client";
+
+import { useTranslation } from "react-i18next";
+
 export function LoadingState() {
+  const { t } = useTranslation();
+
   return (
-    <div role="status" aria-label="Loading countries" className="flex flex-1 items-center justify-center py-24">
+    <div
+      role="status"
+      aria-label={t("states.loadingAccessibilityLabel")}
+      className="flex flex-1 items-center justify-center py-24"
+    >
       <div className="h-10 w-10 animate-spin rounded-full border-2 border-black/10 border-t-blue-500" />
     </div>
   );

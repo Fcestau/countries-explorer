@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react-native';
 
-import en from '@/i18n/locales/en.json';
+import { en } from 'shared';
 import { renderWithI18n } from '@/test-utils/render-with-providers';
 
 import { EmptyState } from './empty-state';

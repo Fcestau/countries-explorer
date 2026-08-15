@@ -4,6 +4,7 @@
   },
   "list": {
     "title": "Countries",
+    "subtitle": "Browse and search countries from around the world.",
     "searchPlaceholder": "Search countries...",
     "searchAccessibilityLabel": "Search countries by name"
   },
@@ -14,6 +15,7 @@
     "retryAccessibilityLabel": "Retry loading countries"
   },
   "detail": {
+    "backToList": "← Back to countries",
     "capital": "Capital",
     "population": "Population",
     "region": "Region",

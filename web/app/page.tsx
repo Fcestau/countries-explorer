@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { filterCountriesByName } from "shared";
 
 import { CountryCard } from "@/components/CountryCard";
@@ -12,6 +13,7 @@ import { useCountries } from "@/hooks/useCountries";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
 export default function Home() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebouncedValue(query);
   const { data, isPending, isError, refetch } = useCountries();
@@ -24,8 +26,8 @@ export default function Home() {
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-6 px-6 py-10">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold">Countries Explorer</h1>
-        <p className="text-sm text-foreground/70">Browse and search countries from around the world.</p>
+        <h1 className="text-2xl font-semibold">{t("list.title")}</h1>
+        <p className="text-sm text-foreground/70">{t("list.subtitle")}</p>
       </div>
 
       <div className="max-w-md">
