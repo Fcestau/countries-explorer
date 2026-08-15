@@ -36,8 +36,10 @@ function CountryCardComponent({ country }: CountryCardProps) {
   const router = useRouter();
 
   const handlePress = useCallback(() => {
-    router.push({ pathname: '/country/[id]', params: { id: country.id } });
-  }, [router, country.id]);
+    // country.id (ISO alpha_3) puede venir vacío para territorios sin código
+    // oficial; uuid siempre está presente, así que es el identificador de ruta.
+    router.push({ pathname: '/country/[id]', params: { id: country.uuid } });
+  }, [router, country.uuid]);
 
   return (
     <Pressable

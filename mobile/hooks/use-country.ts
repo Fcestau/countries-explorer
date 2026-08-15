@@ -5,9 +5,9 @@ import { useCountries } from './use-countries';
  * (navegación normal), no dispara ningún fetch extra. Si es un deep link en frío
  * a /country/[id], React Query hace el fetch completo igual que la lista.
  */
-export function useCountry(id: string | undefined) {
+export function useCountry(uuid: string | undefined) {
   const { data, isPending, isError, refetch } = useCountries();
-  const country = data?.find((item) => item.id === id);
+  const country = data?.find((item) => item.uuid === uuid);
 
   return { country, isPending, isError, refetch };
 }
