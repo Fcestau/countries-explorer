@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { mapRawCountriesToCountries, type RawCountry } from "shared";
+import type { Country } from "shared";
 
 export function useCountries() {
   return useQuery({
@@ -11,8 +11,7 @@ export function useCountries() {
       if (!response.ok) {
         throw new Error(`Failed to fetch countries: ${response.status}`);
       }
-      const raw: RawCountry[] = await response.json();
-      return mapRawCountriesToCountries(raw);
+      return (await response.json()) as Country[];
     },
     // El dataset de países es prácticamente estático: evita refetch innecesario.
     staleTime: Infinity,
