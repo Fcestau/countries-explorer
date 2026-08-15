@@ -1,4 +1,4 @@
-import { fetchAllCountries } from 'shared';
+import { fetchAllCountries, mapRawCountriesToCountries } from 'shared';
 
 /**
  * El dataset de países es prácticamente estático, así que cacheamos esta ruta
@@ -21,7 +21,10 @@ export async function GET() {
       apiKey,
       requestInit: { next: { revalidate: 86400 } },
     });
-    return Response.json(rawCountries);
+    // Mapeamos acá (server-side) en vez de en el cliente: el payload que baja
+    // al browser es más chico (sin campos que Country no usa) y el cliente
+    // se ahorra transformar 250+ objetos en cada carga.
+    return Response.json(mapRawCountriesToCountries(rawCountries));
   } catch {
     return Response.json(
       { error: 'Failed to fetch countries from the upstream API.' },

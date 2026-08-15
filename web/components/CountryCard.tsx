@@ -6,7 +6,7 @@ export function CountryCard({ country }: { country: Country }) {
   return (
     <Link
       href={`/country/${country.uuid}`}
-      className="flex flex-col gap-3 rounded-lg border border-black/10 dark:border-white/15 p-4 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex flex-col gap-3 rounded-lg border border-black/10 bg-white p-4 transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       {country.flagPng ? (
         <Image
@@ -17,7 +17,7 @@ export function CountryCard({ country }: { country: Country }) {
           className="h-11 w-16 rounded object-cover"
         />
       ) : (
-        <div className="h-11 w-16 rounded bg-black/5 dark:bg-white/10" />
+        <div className="h-11 w-16 rounded bg-black/5" />
       )}
       <h2 className="font-semibold">{country.name}</h2>
       <dl className="space-y-0.5 text-sm text-foreground/70">

@@ -28,7 +28,7 @@ export default function CountryDetailPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-10">
-      <Link href="/" className="text-sm text-blue-600 hover:underline dark:text-blue-400">
+      <Link href="/" className="text-sm text-blue-600 hover:underline">
         ← Back to countries
       </Link>
 
@@ -43,12 +43,12 @@ export default function CountryDetailPage() {
             priority
           />
         ) : (
-          <div className="h-35 w-50 rounded-lg bg-black/5 dark:bg-white/10" />
+          <div className="h-35 w-50 rounded-lg bg-black/5" />
         )}
         <h1 className="text-3xl font-semibold">{country.name}</h1>
       </div>
 
-      <dl className="divide-y divide-black/10 dark:divide-white/15">
+      <dl className="divide-y divide-black/10">
         <div className="flex justify-between py-3">
           <dt className="font-medium">Capital</dt>
           <dd>{country.capital}</dd>
