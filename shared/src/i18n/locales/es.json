@@ -1,9 +1,11 @@
 {
   "common": {
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "madeBy": "Hecho por {{name}}"
   },
   "list": {
     "title": "Países",
+    "subtitle": "Explorá y buscá países de todo el mundo.",
     "searchPlaceholder": "Buscar países...",
     "searchAccessibilityLabel": "Buscar países por nombre"
   },
@@ -14,6 +16,7 @@
     "retryAccessibilityLabel": "Reintentar cargar países"
   },
   "detail": {
+    "backToList": "← Volver a países",
     "capital": "Capital",
     "population": "Población",
     "region": "Región",

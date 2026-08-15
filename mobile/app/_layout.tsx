@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import 'react-native-reanimated';
 
 import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemedText } from '@/components/themed-text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { initI18n } from '@/i18n';
 
@@ -15,7 +16,17 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerRight: () => <LanguageSwitcher /> }}>
-      <Stack.Screen name="index" options={{ title: t('list.title') }} />
+      <Stack.Screen
+        name="index"
+        options={{
+          title: t('list.title'),
+          headerLeft: () => (
+            <ThemedText style={{ fontSize: 12, opacity: 0.5 }} numberOfLines={1}>
+              {t('common.madeBy', { name: 'Felipe Cestau' })}
+            </ThemedText>
+          ),
+        }}
+      />
     </Stack>
   );
 }
