@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 import { formatPopulation, type Country } from "shared";
 
-export function CountryCard({ country }: { country: Country }) {
+function CountryCardComponent({ country }: { country: Country }) {
   return (
     <Link
       href={`/country/${country.uuid}`}
@@ -37,3 +38,5 @@ export function CountryCard({ country }: { country: Country }) {
     </Link>
   );
 }
+
+export const CountryCard = memo(CountryCardComponent);
