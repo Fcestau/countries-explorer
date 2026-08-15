@@ -1,10 +1,32 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import type { Country } from 'shared';
 
+import { FlagPlaceholder } from '@/components/flag-placeholder';
 import { ThemedText } from '@/components/themed-text';
+
+const FLAG_WIDTH = 40;
+const FLAG_HEIGHT = 28;
+
+function CountryFlagThumbnail({ uri }: { uri: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (!uri || hasError) {
+    return <FlagPlaceholder width={FLAG_WIDTH} height={FLAG_HEIGHT} />;
+  }
+
+  return (
+    <Image
+      source={{ uri }}
+      style={styles.flag}
+      contentFit="cover"
+      accessibilityIgnoresInvertColors
+      onError={() => setHasError(true)}
+    />
+  );
+}
 
 type CountryCardProps = {
   country: Country;
@@ -23,12 +45,7 @@ function CountryCardComponent({ country }: CountryCardProps) {
       accessibilityRole="button"
       accessibilityLabel={`${country.name}, ${country.region}`}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
-      <Image
-        source={{ uri: country.flagPng }}
-        style={styles.flag}
-        contentFit="cover"
-        accessibilityIgnoresInvertColors
-      />
+      <CountryFlagThumbnail uri={country.flagPng} />
       <View style={styles.info}>
         <ThemedText type="defaultSemiBold">{country.name}</ThemedText>
         <ThemedText type="default" style={styles.region}>
@@ -54,8 +71,8 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   flag: {
-    width: 40,
-    height: 28,
+    width: FLAG_WIDTH,
+    height: FLAG_HEIGHT,
     borderRadius: 4,
   },
   info: {

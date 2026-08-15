@@ -1,8 +1,8 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { SvgUri } from 'react-native-svg';
 import { formatPopulation } from 'shared';
 
+import { CountryFlag } from '@/components/country-flag';
 import { EmptyState } from '@/components/empty-state';
 import { ErrorState } from '@/components/error-state';
 import { LoadingState } from '@/components/loading-state';
@@ -39,13 +39,14 @@ export default function CountryDetailScreen() {
     <ThemedView style={styles.screen}>
       <Stack.Screen options={{ title: country.name }} />
       <ScrollView contentContainerStyle={styles.content}>
-        <SvgUri
-          uri={country.flagSvg}
-          width={160}
-          height={112}
-          style={styles.flag}
-          accessibilityLabel={`Flag of ${country.name}`}
-        />
+        <View style={styles.flag}>
+          <CountryFlag
+            uri={country.flagSvg}
+            width={160}
+            height={112}
+            accessibilityLabel={`Flag of ${country.name}`}
+          />
+        </View>
         <ThemedText type="title" style={styles.name}>
           {country.name}
         </ThemedText>
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
   },
   flag: {
     borderRadius: 8,
+    overflow: 'hidden',
   },
   name: {
     textAlign: 'center',
