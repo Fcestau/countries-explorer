@@ -1,6 +1,7 @@
 {
   "common": {
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "madeBy": "Hecho por {{name}}"
   },
   "list": {
     "title": "Países",

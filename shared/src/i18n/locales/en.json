@@ -1,6 +1,7 @@
 {
   "common": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "madeBy": "Made by {{name}}"
   },
   "list": {
     "title": "Countries",
