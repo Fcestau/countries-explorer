@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
-import { memo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { memo, useCallback } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 import type { Country } from 'shared';
 
 import { ThemedText } from '@/components/themed-text';
@@ -10,8 +11,18 @@ type CountryCardProps = {
 };
 
 function CountryCardComponent({ country }: CountryCardProps) {
+  const router = useRouter();
+
+  const handlePress = useCallback(() => {
+    router.push({ pathname: '/country/[id]', params: { id: country.id } });
+  }, [router, country.id]);
+
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={handlePress}
+      accessibilityRole="button"
+      accessibilityLabel={`${country.name}, ${country.region}`}
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
       <Image
         source={{ uri: country.flagPng }}
         style={styles.flag}
@@ -24,7 +35,7 @@ function CountryCardComponent({ country }: CountryCardProps) {
           {country.region}
         </ThemedText>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -38,6 +49,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     maxHeight: 44,
+  },
+  pressed: {
+    opacity: 0.6,
   },
   flag: {
     width: 40,
