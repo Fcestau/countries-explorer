@@ -11,5 +11,8 @@
     "mobile": "npm run start --workspace mobile",
     "web": "npm run dev --workspace web",
     "test": "npm run test --workspaces --if-present"
+  },
+  "overrides": {
+    "jest": "^29.7.0"
   }
 }

@@ -1,4 +1,9 @@
-// Punto de entrada del paquete shared.
-// Fase 0: constante dummy para validar que mobile y web resuelven el workspace.
-// Las fases siguientes exportan tipos, servicios, mappers y utils desde acá.
-export const SHARED_PACKAGE_NAME = 'shared';
+export type { Country, RawCountriesResponse, RawCountry } from './types/country';
+export { BASE_URL, PAGE_LIMIT, RESPONSE_FIELDS } from './constants/api';
+export { SEARCH_DEBOUNCE_MS } from './constants/ui';
+export { mapRawCountriesToCountries, mapRawCountryToCountry } from './mappers/countryMapper';
+export type { FetchAllCountriesOptions } from './services/countriesApi';
+export { fetchAllCountries } from './services/countriesApi';
+export { debounce } from './utils/debounce';
+export { filterCountriesByName } from './utils/filterCountries';
+export { formatPopulation } from './utils/formatPopulation';

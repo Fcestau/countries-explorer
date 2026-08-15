@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { SHARED_PACKAGE_NAME } from "shared";
 
 export default function Home() {
   return (
@@ -37,9 +36,6 @@ export default function Home() {
               Learning
             </a>{" "}
             center.
-          </p>
-          <p className="text-sm text-zinc-500 dark:text-zinc-500">
-            Workspace <code>{SHARED_PACKAGE_NAME}</code> ok
           </p>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">

@@ -30,6 +30,10 @@ yarn-debug.*
 yarn-error.*
 .DS_Store
 *.pem
+
+# env / secrets (API keys) — never commit real values, only .env.example
+.env
+.env.local
 .env*.local
 
 # testing
