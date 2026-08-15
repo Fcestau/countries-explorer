@@ -2,6 +2,16 @@
 
 Monorepo with a **mobile** app (Expo / React Native, main focus) and a **web companion** (Next.js), both consuming the public [REST Countries](https://restcountries.com) API to list, search, and view country details.
 
+## Screenshots
+
+| Mobile — list | Mobile — detail |
+|---|---|
+| ![Mobile list screen](docs/screenshots/mobile-home.png) | ![Mobile detail screen](docs/screenshots/mobile-detail.png) |
+
+| Web — list | Web — detail |
+|---|---|
+| ![Web list screen](docs/screenshots/web-home.png) | ![Web detail screen](docs/screenshots/web-detail.png) |
+
 ## Stack and versions
 
 | | Version used |
