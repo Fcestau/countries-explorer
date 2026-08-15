@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import { formatPopulation } from "shared";
+import { formatPopulation, getLocalizedCountryName } from "shared";
 
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorState } from "@/components/ErrorState";
@@ -14,7 +14,7 @@ import { useCountry } from "@/hooks/useCountry";
 export default function CountryDetailPage() {
   const params = useParams<{ id: string }>();
   const { country, isPending, isError, refetch } = useCountry(params.id);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (isPending) {
     return <LoadingState />;
@@ -28,6 +28,7 @@ export default function CountryDetailPage() {
     return <EmptyState />;
   }
 
+  const name = getLocalizedCountryName(country, i18n.language);
   const region = t(`regions.${country.region}`, { defaultValue: country.region });
 
   return (
@@ -40,7 +41,7 @@ export default function CountryDetailPage() {
         {country.flagPng ? (
           <Image
             src={country.flagPng}
-            alt={t("detail.flagAccessibilityLabel", { name: country.name })}
+            alt={t("detail.flagAccessibilityLabel", { name })}
             width={200}
             height={140}
             className="h-35 w-50 rounded-lg object-cover"
@@ -49,7 +50,7 @@ export default function CountryDetailPage() {
         ) : (
           <div className="h-35 w-50 rounded-lg bg-black/5" />
         )}
-        <h1 className="text-3xl font-semibold">{country.name}</h1>
+        <h1 className="text-3xl font-semibold">{name}</h1>
       </div>
 
       <dl className="divide-y divide-black/10">

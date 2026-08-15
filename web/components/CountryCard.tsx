@@ -4,10 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { formatPopulation, type Country } from "shared";
+import { formatPopulation, getLocalizedCountryName, type Country } from "shared";
 
 function CountryCardComponent({ country }: { country: Country }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const name = getLocalizedCountryName(country, i18n.language);
   const region = t(`regions.${country.region}`, { defaultValue: country.region });
 
   return (
@@ -18,7 +19,7 @@ function CountryCardComponent({ country }: { country: Country }) {
       {country.flagPng ? (
         <Image
           src={country.flagPng}
-          alt={t("detail.flagAccessibilityLabel", { name: country.name })}
+          alt={t("detail.flagAccessibilityLabel", { name })}
           width={64}
           height={44}
           className="h-11 w-16 rounded object-cover"
@@ -26,7 +27,7 @@ function CountryCardComponent({ country }: { country: Country }) {
       ) : (
         <div className="h-11 w-16 rounded bg-black/5" />
       )}
-      <h2 className="font-semibold">{country.name}</h2>
+      <h2 className="font-semibold">{name}</h2>
       <dl className="space-y-0.5 text-sm text-foreground/70">
         <div>
           <dt className="inline font-medium">{t("detail.capital")}: </dt>
