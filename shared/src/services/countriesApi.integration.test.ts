@@ -21,6 +21,7 @@ describe('fetchAllCountries (live integration)', () => {
       const spain = countries.find((country) => country.id === 'ESP');
       expect(spain).toBeDefined();
       expect(spain?.name).toBe('Spain');
+      expect(spain?.nameEs).toBe('España');
       expect(spain?.capital).toBe('Madrid');
       expect(spain?.flagSvg).toMatch(/^https:\/\//);
       expect(typeof spain?.population).toBe('number');

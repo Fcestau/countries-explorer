@@ -1,6 +1,6 @@
+import { Image } from 'expo-image';
 import { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { SvgUri } from 'react-native-svg';
 import type { Country } from 'shared';
 
 import { ThemedText } from '@/components/themed-text';
@@ -12,7 +12,12 @@ type CountryCardProps = {
 function CountryCardComponent({ country }: CountryCardProps) {
   return (
     <View style={styles.container}>
-      <SvgUri uri={country.flagSvg} width={40} height={28} style={styles.flag} />
+      <Image
+        source={{ uri: country.flagPng }}
+        style={styles.flag}
+        contentFit="cover"
+        accessibilityIgnoresInvertColors
+      />
       <View style={styles.info}>
         <ThemedText type="defaultSemiBold">{country.name}</ThemedText>
         <ThemedText type="default" style={styles.region}>
@@ -32,9 +37,11 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    minHeight: 44,
+    maxHeight: 44,
   },
   flag: {
+    width: 40,
+    height: 28,
     borderRadius: 4,
   },
   info: {

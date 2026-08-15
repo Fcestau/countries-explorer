@@ -13,7 +13,9 @@ function pickCapitalName(capitals: RawCountry['capitals']): string {
 export function mapRawCountryToCountry(raw: RawCountry): Country {
   return {
     id: raw.codes.alpha_3,
+    uuid: raw.uuid,
     name: raw.names.common,
+    nameEs: raw.names.translations?.spa?.common ?? raw.names.common,
     officialName: raw.names.official,
     capital: pickCapitalName(raw.capitals),
     population: raw.population,

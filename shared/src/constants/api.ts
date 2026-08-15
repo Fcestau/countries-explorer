@@ -5,8 +5,10 @@ export const BASE_URL = 'https://api.restcountries.com/countries/v5';
  * Solo pedimos lo que la UI necesita: nombre, código, bandera, capital, población y región.
  */
 export const RESPONSE_FIELDS = [
+  'uuid',
   'names.common',
   'names.official',
+  'names.translations.spa.common',
   'codes.alpha_3',
   'flag.url_svg',
   'flag.url_png',

@@ -1,8 +1,12 @@
 /** Forma cruda de un país tal como lo devuelve REST Countries v5 (data.objects[i]). */
 export interface RawCountry {
+  uuid: string;
   names: {
     common: string;
     official: string;
+    translations?: {
+      spa?: { common: string; official: string };
+    };
   };
   codes: {
     alpha_3: string;
@@ -37,7 +41,11 @@ export interface RawCountriesResponse {
 /** Modelo de dominio usado por mobile y web, ya normalizado. */
 export interface Country {
   id: string;
+  /** UUID estable de la API, pensado para usar como key de listas (FlatList/map). */
+  uuid: string;
   name: string;
+  /** Nombre común en español, para búsqueda/UI bilingüe EN/ES. */
+  nameEs: string;
   officialName: string;
   capital: string;
   population: number;

@@ -3,6 +3,7 @@ import type { RawCountriesResponse, RawCountry } from '../types/country';
 
 function makeRawCountry(id: string): RawCountry {
   return {
+    uuid: `uuid-${id}`,
     names: { common: id, official: id },
     codes: { alpha_3: id },
     flag: { url_svg: '', url_png: '' },

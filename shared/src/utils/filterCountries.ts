@@ -15,5 +15,9 @@ export function filterCountriesByName(countries: Country[], query: string): Coun
     return countries;
   }
 
-  return countries.filter((country) => normalize(country.name).includes(normalizedQuery));
+  return countries.filter(
+    (country) =>
+      normalize(country.name).includes(normalizedQuery) ||
+      normalize(country.nameEs).includes(normalizedQuery),
+  );
 }

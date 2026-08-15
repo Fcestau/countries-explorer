@@ -21,7 +21,7 @@ export default function CountriesListScreen() {
     [data, debouncedQuery],
   );
 
-  const keyExtractor = useCallback((item: Country) => item.id, []);
+  const keyExtractor = useCallback((item: Country) => item.uuid, []);
   const renderItem = useCallback(({ item }: { item: Country }) => <CountryCard country={item} />, []);
 
   return (
