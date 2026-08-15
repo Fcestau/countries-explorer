@@ -1,3 +1,3 @@
 # web
 
-Parte del monorepo [countries-explorer](../README.md). Ver el README de la raíz para instalación, scripts y decisiones técnicas.
+Part of the [countries-explorer](../README.md) monorepo. See the root README for installation, scripts, and technical decisions.

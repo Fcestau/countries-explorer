@@ -1,45 +1,45 @@
 # Countries Explorer
 
-Monorepo con una app **mobile** (Expo / React Native, foco principal) y una **web companion** (Next.js), ambas consumiendo la API pública [REST Countries](https://restcountries.com) para listar, buscar y ver el detalle de países.
+Monorepo with a **mobile** app (Expo / React Native, main focus) and a **web companion** (Next.js), both consuming the public [REST Countries](https://restcountries.com) API to list, search, and view country details.
 
-## Stack y versiones
+## Stack and versions
 
-| | Versión usada |
+| | Version used |
 |---|---|
 | Node | v22.16.0 |
 | npm | 11.4.1 |
 | Expo SDK | 54 (`expo ~54.0.35`, `react-native 0.81.5`) |
 | Next.js | 16.3.1 (App Router) |
 
-Requisito: **Expo Go** en el celular debe ser la build correspondiente al SDK 54 (si tu Expo Go es más viejo, la app no va a abrir — actualizalo desde la store).
+Requirement: **Expo Go** on your phone must be the build matching SDK 54 (if your Expo Go is older, the app won't open — update it from the store).
 
-## 1. Conseguir una API key
+## 1. Get an API key
 
-Este proyecto usa **REST Countries v5** (`api.restcountries.com`), no v3.1: v1–v4 quedaron deprecadas y v5 exige autenticación.
+This project uses **REST Countries v5** (`api.restcountries.com`), not v3.1: v1–v4 are deprecated and v5 requires authentication.
 
-1. Creá una cuenta gratis en [restcountries.com/docs/api-versions](https://restcountries.com/docs/api-versions) (free tier: 500 requests/mes).
-2. Copiá tu API key.
+1. Create a free account at [restcountries.com/docs/api-versions](https://restcountries.com/docs/api-versions) (free tier: 500 requests/month).
+2. Copy your API key.
 
-## 2. Instalación
+## 2. Install
 
-Desde la raíz del repo:
+From the repo root:
 
 ```bash
 npm install
 ```
 
-Esto instala las dependencias de `shared/`, `mobile/` y `web/` de una (npm workspaces).
+This installs the dependencies for `shared/`, `mobile/`, and `web/` in one go (npm workspaces).
 
-## 3. Variables de entorno
+## 3. Environment variables
 
-Copiá los `.env.example` de cada app y completá la key que conseguiste en el paso 1. **Nunca se commitean** (están en `.gitignore`).
+Copy each app's `.env.example` and fill in the key you got in step 1. These files are **never committed** (they're in `.gitignore`).
 
-**`web/.env`** (server-only, nunca llega al bundle del browser):
+**`web/.env`** (server-only, never reaches the browser bundle):
 ```bash
 cp web/.env.example web/.env
 ```
 ```
-RESTCOUNTRIES_API_KEY=tu_key_aca
+RESTCOUNTRIES_API_KEY=your_key_here
 ```
 
 **`mobile/.env`**:
@@ -47,26 +47,26 @@ RESTCOUNTRIES_API_KEY=tu_key_aca
 cp mobile/.env.example mobile/.env
 ```
 ```
-EXPO_PUBLIC_RESTCOUNTRIES_API_KEY=tu_key_aca
+EXPO_PUBLIC_RESTCOUNTRIES_API_KEY=your_key_here
 ```
 
-> ⚠️ **Trade-off asumido**: en mobile la key queda con el prefijo `EXPO_PUBLIC_`, lo que significa que Expo la inyecta directo en el bundle JS del cliente — es visible para cualquiera que inspeccione la app instalada. Es una limitación inherente de no tener servidor propio en mobile; en web sí evitamos esto (ver sección de decisiones técnicas).
+> ⚠️ **Accepted trade-off**: on mobile, the key uses the `EXPO_PUBLIC_` prefix, which means Expo inlines it directly into the client JS bundle — it's visible to anyone who inspects the installed app. This is an inherent limitation of not having a backend on mobile; on web we avoid this (see the technical decisions section).
 
-## 4. Correr las apps
+## 4. Run the apps
 
-**Mobile** (con Expo Go en el celular, mismo Wi-Fi que la compu):
+**Mobile** (with Expo Go on your phone, same Wi-Fi as your computer):
 ```bash
 npm run mobile
-# o: cd mobile && npx expo start
+# or: cd mobile && npx expo start
 ```
-Escaneá el QR con Expo Go.
+Scan the QR code with Expo Go.
 
 **Web**:
 ```bash
 npm run web
-# o: cd web && npm run dev
+# or: cd web && npm run dev
 ```
-Abre en [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000).
 
 ## 5. Tests
 
@@ -74,50 +74,50 @@ Abre en [http://localhost:3000](http://localhost:3000).
 npm test
 ```
 
-Corre los tests de `shared/` (mapper, formatter, filtro, paginación) y `mobile/` (estados de UI) en todos los workspaces. Sin la API key configurada como variable de entorno, el test de integración contra la API real (`shared/src/services/countriesApi.integration.test.ts`) se **salta automáticamente** — el resto no depende de red.
+Runs the tests for `shared/` (mapper, formatter, filter, pagination) and `mobile/` (UI states) across all workspaces. Without the API key set as an environment variable, the live-integration test (`shared/src/services/countriesApi.integration.test.ts`) **skips itself automatically** — everything else has no network dependency.
 
-Para correrlo también (opcional, valida contra datos reales):
+To also run it (optional, validates against real data):
 ```bash
-cd shared && RESTCOUNTRIES_API_KEY=tu_key npx jest countriesApi.integration
+cd shared && RESTCOUNTRIES_API_KEY=your_key npx jest countriesApi.integration
 ```
 
-## Estructura del proyecto
+## Project structure
 
 ```
 countries-explorer/
-├── shared/          # tipos, servicio de API, mapper, formatters, filtro, debounce — sin dependencias de runtime
-├── mobile/          # Expo Router: app/index.tsx (lista) + app/country/[id].tsx (detalle)
-└── web/             # Next.js App Router: app/page.tsx (lista) + app/country/[id]/page.tsx (detalle)
+├── shared/          # types, API service, mapper, formatters, filter, debounce — no runtime dependencies
+├── mobile/          # Expo Router: app/index.tsx (list) + app/country/[id].tsx (detail)
+└── web/             # Next.js App Router: app/page.tsx (list) + app/country/[id]/page.tsx (detail)
 ```
 
-## Decisiones técnicas
+## Technical decisions
 
-| Decisión | Detalle |
+| Decision | Detail |
 |---|---|
-| **API v5, no v3.1** | v1–v4 de REST Countries están deprecadas. v5 vive en `api.restcountries.com`, exige `Authorization: Bearer <key>` y pagina los resultados (máx. 100/página en el free tier). `shared/src/services/countriesApi.ts` pagina automáticamente hasta agotar `meta.more`. |
-| **Key oculta en web, expuesta en mobile** | El route handler `web/app/api/countries/route.ts` hace el fetch a REST Countries **server-side** (la key nunca llega al browser) y cachea la respuesta 24h. El cliente web solo pega a `/api/countries`, mismo origen. Mobile no tiene backend propio, así que la key queda en el bundle (ver trade-off arriba). |
-| **`uuid` como identificador, no `cca3`** | 4 de 254 países/territorios (Abjasia, Chipre del Norte, Somalilandia, Osetia del Sur) no tienen código ISO alpha-3. El `uuid` que devuelve la API sí está siempre presente, así que se usa como `key` de listas (`FlatList`/`.map`) y como parámetro de la ruta dinámica `/country/[id]` en ambas apps. |
-| **Búsqueda bilingüe** | La API expone `names.translations.spa.common` (nombre en español). `Country.nameEs` lo guarda con fallback al nombre en inglés si no hay traducción. `filterCountriesByName` matchea contra ambos nombres, sin acentos ni mayúsculas. En mobile, el nombre mostrado también cambia según el idioma activo (`getLocalizedCountryName`). |
-| **Regiones traducidas, pero fijas** | Las 6 regiones posibles (`Africa`, `Americas`, `Antarctic`, `Asia`, `Europe`, `Oceania`) se traducen con claves i18n propias de mobile (`regions.*`), no vienen de la API — es contenido estático de la app. |
-| **PNG en listas, SVG en detalle (mobile)** | Las banderas SVG de REST Countries no traen `viewBox`, así que `SvgUri` las recortaba en vez de escalarlas al pedir un tamaño distinto al original. `mobile/components/country-flag.tsx` trae el XML a mano y le inyecta un `viewBox` derivado de su propio `width`/`height` antes de renderizarlo con `SvgXml`. Para la lista se usa PNG (más liviano, sin este problema) vía `expo-image`. Si falta la bandera o falla la carga, se muestra un placeholder. |
-| **React Query, `staleTime: Infinity`** | El dataset de países es estático dentro de una sesión: se pide una sola vez y se cachea. Mobile y web reusan la misma query key (`['countries']`) entre la lista y el detalle — si ya visitaste la lista, el detalle no vuelve a pedir nada. |
-| **Debounce compartido** | `shared/src/utils/debounce.ts` es un debounce framework-agnostic (sin dependencia de React). Cada app lo envuelve en su propio hook (`useDebouncedValue`) porque un hook necesita React, y `shared` se mantiene sin dependencias de runtime. |
-| **Sin paginación / sin estado global** | El dataset (~254 países) es chico y fijo: un solo fetch + filtrado en memoria alcanza. No hay Zustand/Context porque no hay estado compartido que lo justifique. |
-| **Copia única de React en mobile** | En este monorepo, `mobile/package.json` fija la versión exacta de React que espera Expo SDK 54, pero otras dependencias hoisteadas por npm (p. ej. `expo-router`) podían resolver una copia distinta (la que pide `web/`). Eso generaba dos instancias de React en el mismo bundle de Metro y rompía los hooks internos. `mobile/metro.config.js` fuerza `react` a resolver siempre desde `mobile/node_modules/react`. |
+| **API v5, not v3.1** | REST Countries v1–v4 are deprecated. v5 lives at `api.restcountries.com`, requires `Authorization: Bearer <key>`, and paginates results (max 100/page on the free tier). `shared/src/services/countriesApi.ts` paginates automatically until `meta.more` is exhausted. |
+| **Key hidden on web, exposed on mobile** | The `web/app/api/countries/route.ts` route handler fetches REST Countries **server-side** (the key never reaches the browser) and caches the response for 24h. The web client only hits `/api/countries`, same origin. Mobile has no backend of its own, so the key stays in the bundle (see trade-off above). |
+| **`uuid` as the identifier, not `cca3`** | 4 out of 254 countries/territories (Abkhazia, Northern Cyprus, Somaliland, South Ossetia) have no ISO alpha-3 code. The `uuid` the API returns is always present, so it's used as the `key` for lists (`FlatList`/`.map`) and as the dynamic route param for `/country/[id]` in both apps. |
+| **Bilingual search** | The API exposes `names.translations.spa.common` (Spanish name). `Country.nameEs` stores it, falling back to the English name when no translation exists. `filterCountriesByName` matches against both names, accent- and case-insensitive. On mobile, the displayed name also switches with the active language (`getLocalizedCountryName`). |
+| **Regions translated, but fixed** | The 6 possible regions (`Africa`, `Americas`, `Antarctic`, `Asia`, `Europe`, `Oceania`) are translated with mobile's own i18n keys (`regions.*`) — they don't come from the API, they're static app content. |
+| **PNG in lists, SVG in detail (mobile)** | REST Countries' SVG flags ship without a `viewBox`, so `SvgUri` was cropping them instead of scaling when asked for a size different from the original. `mobile/components/country-flag.tsx` fetches the XML itself and injects a `viewBox` derived from its own `width`/`height` before rendering it with `SvgXml`. The list uses PNG instead (lighter, unaffected by this issue) via `expo-image`. If a flag is missing or fails to load, a placeholder is shown. |
+| **React Query, `staleTime: Infinity`** | The country dataset is static within a session: fetched once and cached. Mobile and web reuse the same query key (`['countries']`) between the list and the detail screen — if you've already visited the list, the detail screen doesn't fetch anything again. |
+| **Shared debounce** | `shared/src/utils/debounce.ts` is a framework-agnostic debounce (no React dependency). Each app wraps it in its own hook (`useDebouncedValue`) since a hook needs React, and `shared` stays free of runtime dependencies. |
+| **No pagination / no global state** | The dataset (~254 countries) is small and fixed: a single fetch plus in-memory filtering is enough. There's no Zustand/Context since there's no shared state that would justify it. |
+| **Single React copy on mobile** | In this monorepo, `mobile/package.json` pins the exact React version Expo SDK 54 expects, but other npm-hoisted dependencies (e.g. `expo-router`) could resolve a different copy (the one `web/` asks for). That caused two React instances in the same Metro bundle and broke internal hooks. `mobile/metro.config.js` forces `react` to always resolve from `mobile/node_modules/react`. |
 
-## Qué lógica se comparte (`shared/`)
+## What logic is shared (`shared/`)
 
-- **Tipos**: `RawCountry` (shape de la API), `Country` (modelo de dominio).
-- **Servicio**: `fetchAllCountries` — pagina contra REST Countries v5.
-- **Mapper**: `mapRawCountryToCountry(s)` — de `RawCountry` a `Country`, con fallbacks (capital `N/A`, nombre en español = nombre en inglés si no hay traducción).
-- **Utils**: `filterCountriesByName` (búsqueda bilingüe, sin acentos), `formatPopulation` (`Intl.NumberFormat`), `debounce`, `getLocalizedCountryName`.
-- **Constantes**: `BASE_URL`, `RESPONSE_FIELDS`, `PAGE_LIMIT`, `SEARCH_DEBOUNCE_MS`.
+- **Types**: `RawCountry` (API shape), `Country` (domain model).
+- **Service**: `fetchAllCountries` — paginates against REST Countries v5.
+- **Mapper**: `mapRawCountryToCountry(s)` — from `RawCountry` to `Country`, with fallbacks (capital `N/A`, Spanish name = English name when no translation exists).
+- **Utils**: `filterCountriesByName` (bilingual, accent-insensitive search), `formatPopulation` (`Intl.NumberFormat`), `debounce`, `getLocalizedCountryName`.
+- **Constants**: `BASE_URL`, `RESPONSE_FIELDS`, `PAGE_LIMIT`, `SEARCH_DEBOUNCE_MS`.
 
-Mobile y web importan todo esto desde `shared` — cero lógica de dominio duplicada entre plataformas. Lo que **no** se comparte (por decisión, no por descuido) son los componentes de UI: los patrones de React Native y de la web son distintos, así que cada app tiene los suyos (`CountryCard`, `SearchBar`, `LoadingState`, `EmptyState`, `ErrorState` existen en ambas carpetas, pero son implementaciones independientes).
+Mobile and web both import all of this from `shared` — zero duplicated domain logic between platforms. What's **not** shared (by design, not by oversight) are the UI components: React Native and web patterns are different, so each app has its own (`CountryCard`, `SearchBar`, `LoadingState`, `EmptyState`, `ErrorState` exist in both folders, but as independent implementations).
 
-## Trade-offs asumidos
+## Accepted trade-offs
 
-- **API key visible en el bundle de mobile**: inevitable sin un backend propio (ver sección 3). Documentado, no oculto.
-- **Free tier de 500 requests/mes**: mitigado con `staleTime: Infinity` en React Query (un solo fetch por sesión) y caché de 24h en el route handler de web.
-- **`uuid` en vez de `cca3` en las URLs**: las rutas de detalle son menos legibles (`/country/0e1bae13-...` en vez de `/country/ESP`), pero es la única forma de que los 4 territorios sin código ISO tengan una página de detalle funcional.
-- **Sin dark mode en web**: se fijó un tema claro único (fondo gris `#f2f2f2` + cards blancas) después de detectar que el esquema adaptativo original hacía que algunas banderas (blancas o muy oscuras) se perdieran contra el fondo en modo oscuro.
+- **API key visible in the mobile bundle**: unavoidable without a backend of its own (see section 3). Documented, not hidden.
+- **500 requests/month free tier**: mitigated with `staleTime: Infinity` in React Query (a single fetch per session) and a 24h cache in the web route handler.
+- **`uuid` instead of `cca3` in URLs**: detail routes are less readable (`/country/0e1bae13-...` instead of `/country/ESP`), but it's the only way for the 4 territories without an ISO code to have a working detail page.
+- **No dark mode on web**: settled on a single light theme (gray `#f2f2f2` background + white cards) after finding that the original adaptive scheme caused some flags (white or very dark ones) to blend into the background in dark mode.
