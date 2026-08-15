@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { memo, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
 import type { Country } from 'shared';
 
@@ -34,6 +35,7 @@ type CountryCardProps = {
 
 function CountryCardComponent({ country }: CountryCardProps) {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const handlePress = useCallback(() => {
     // country.id (ISO alpha_3) puede venir vacío para territorios sin código
@@ -45,7 +47,10 @@ function CountryCardComponent({ country }: CountryCardProps) {
     <Pressable
       onPress={handlePress}
       accessibilityRole="button"
-      accessibilityLabel={`${country.name}, ${country.region}`}
+      accessibilityLabel={t('countryCard.accessibilityLabel', {
+        name: country.name,
+        region: country.region,
+      })}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
       <CountryFlagThumbnail uri={country.flagPng} />
       <View style={styles.info}>

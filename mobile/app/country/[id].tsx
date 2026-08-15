@@ -1,4 +1,5 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { formatPopulation } from 'shared';
 
@@ -22,6 +23,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { country, isPending, isError, refetch } = useCountry(id);
+  const { t } = useTranslation();
 
   if (isPending) {
     return <LoadingState />;
@@ -44,16 +46,16 @@ export default function CountryDetailScreen() {
             uri={country.flagSvg}
             width={160}
             height={112}
-            accessibilityLabel={`Flag of ${country.name}`}
+            accessibilityLabel={t('detail.flagAccessibilityLabel', { name: country.name })}
           />
         </View>
         <ThemedText type="title" style={styles.name}>
           {country.name}
         </ThemedText>
         <View style={styles.details}>
-          <DetailRow label="Capital" value={country.capital} />
-          <DetailRow label="Population" value={formatPopulation(country.population)} />
-          <DetailRow label="Region" value={country.region} />
+          <DetailRow label={t('detail.capital')} value={country.capital} />
+          <DetailRow label={t('detail.population')} value={formatPopulation(country.population)} />
+          <DetailRow label={t('detail.region')} value={country.region} />
         </View>
       </ScrollView>
     </ThemedView>

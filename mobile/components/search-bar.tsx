@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, TextInput } from 'react-native';
 
 type SearchBarProps = {
@@ -6,15 +7,17 @@ type SearchBarProps = {
 };
 
 export function SearchBar({ value, onChangeText }: SearchBarProps) {
+  const { t } = useTranslation();
+
   return (
     <TextInput
       value={value}
       onChangeText={onChangeText}
-      placeholder="Search countries..."
+      placeholder={t('list.searchPlaceholder')}
       placeholderTextColor="#9BA1A6"
       autoCorrect={false}
       autoCapitalize="none"
-      accessibilityLabel="Search countries by name"
+      accessibilityLabel={t('list.searchAccessibilityLabel')}
       style={styles.input}
     />
   );

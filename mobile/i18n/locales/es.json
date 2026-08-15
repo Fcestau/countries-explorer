@@ -1,0 +1,28 @@
+{
+  "common": {
+    "retry": "Reintentar"
+  },
+  "list": {
+    "title": "Países",
+    "searchPlaceholder": "Buscar países...",
+    "searchAccessibilityLabel": "Buscar países por nombre"
+  },
+  "states": {
+    "loadingAccessibilityLabel": "Cargando países",
+    "emptyMessage": "No se encontraron resultados",
+    "errorMessage": "Ocurrió un error al cargar los países.",
+    "retryAccessibilityLabel": "Reintentar cargar países"
+  },
+  "detail": {
+    "capital": "Capital",
+    "population": "Población",
+    "region": "Región",
+    "flagAccessibilityLabel": "Bandera de {{name}}"
+  },
+  "countryCard": {
+    "accessibilityLabel": "{{name}}, {{region}}"
+  },
+  "languageSwitcher": {
+    "switchTo": "Cambiar idioma a {{language}}"
+  }
+}

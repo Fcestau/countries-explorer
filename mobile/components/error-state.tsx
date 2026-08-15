@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -8,18 +9,20 @@ type ErrorStateProps = {
 };
 
 export function ErrorState({ onRetry }: ErrorStateProps) {
+  const { t } = useTranslation();
+
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="default" style={styles.message}>
-        Something went wrong while loading countries.
+        {t('states.errorMessage')}
       </ThemedText>
       <Pressable
         onPress={onRetry}
         accessibilityRole="button"
-        accessibilityLabel="Retry loading countries"
+        accessibilityLabel={t('states.retryAccessibilityLabel')}
         style={styles.button}>
         <ThemedText type="defaultSemiBold" style={styles.buttonText}>
-          Retry
+          {t('common.retry')}
         </ThemedText>
       </Pressable>
     </ThemedView>
