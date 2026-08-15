@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { memo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, View } from 'react-native';
-import type { Country } from 'shared';
+import { getLocalizedCountryName, type Country } from 'shared';
 
 import { FlagPlaceholder } from '@/components/flag-placeholder';
 import { ThemedText } from '@/components/themed-text';
@@ -35,7 +35,9 @@ type CountryCardProps = {
 
 function CountryCardComponent({ country }: CountryCardProps) {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const displayName = getLocalizedCountryName(country, i18n.language);
+  const displayRegion = t(`regions.${country.region}`, { defaultValue: country.region });
 
   const handlePress = useCallback(() => {
     // country.id (ISO alpha_3) puede venir vacío para territorios sin código
@@ -48,15 +50,15 @@ function CountryCardComponent({ country }: CountryCardProps) {
       onPress={handlePress}
       accessibilityRole="button"
       accessibilityLabel={t('countryCard.accessibilityLabel', {
-        name: country.name,
-        region: country.region,
+        name: displayName,
+        region: displayRegion,
       })}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
       <CountryFlagThumbnail uri={country.flagPng} />
       <View style={styles.info}>
-        <ThemedText type="defaultSemiBold">{country.name}</ThemedText>
+        <ThemedText type="defaultSemiBold">{displayName}</ThemedText>
         <ThemedText type="default" style={styles.region}>
-          {country.region}
+          {displayRegion}
         </ThemedText>
       </View>
     </Pressable>

@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { formatPopulation } from 'shared';
+import { formatPopulation, getLocalizedCountryName } from 'shared';
 
 import { CountryFlag } from '@/components/country-flag';
 import { EmptyState } from '@/components/empty-state';
@@ -23,7 +23,7 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 export default function CountryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { country, isPending, isError, refetch } = useCountry(id);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (isPending) {
     return <LoadingState />;
@@ -37,25 +37,28 @@ export default function CountryDetailScreen() {
     return <EmptyState />;
   }
 
+  const displayName = getLocalizedCountryName(country, i18n.language);
+  const displayRegion = t(`regions.${country.region}`, { defaultValue: country.region });
+
   return (
     <ThemedView style={styles.screen}>
-      <Stack.Screen options={{ title: country.name }} />
+      <Stack.Screen options={{ title: displayName }} />
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.flag}>
           <CountryFlag
             uri={country.flagSvg}
             width={160}
             height={112}
-            accessibilityLabel={t('detail.flagAccessibilityLabel', { name: country.name })}
+            accessibilityLabel={t('detail.flagAccessibilityLabel', { name: displayName })}
           />
         </View>
         <ThemedText type="title" style={styles.name}>
-          {country.name}
+          {displayName}
         </ThemedText>
         <View style={styles.details}>
           <DetailRow label={t('detail.capital')} value={country.capital} />
           <DetailRow label={t('detail.population')} value={formatPopulation(country.population)} />
-          <DetailRow label={t('detail.region')} value={country.region} />
+          <DetailRow label={t('detail.region')} value={displayRegion} />
         </View>
       </ScrollView>
     </ThemedView>

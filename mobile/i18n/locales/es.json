@@ -22,6 +22,14 @@
   "countryCard": {
     "accessibilityLabel": "{{name}}, {{region}}"
   },
+  "regions": {
+    "Africa": "África",
+    "Americas": "América",
+    "Antarctic": "Antártida",
+    "Asia": "Asia",
+    "Europe": "Europa",
+    "Oceania": "Oceanía"
+  },
   "languageSwitcher": {
     "switchTo": "Cambiar idioma a {{language}}"
   }

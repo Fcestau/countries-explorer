@@ -6,4 +6,5 @@ export type { FetchAllCountriesOptions } from './services/countriesApi';
 export { fetchAllCountries } from './services/countriesApi';
 export { debounce } from './utils/debounce';
 export { filterCountriesByName } from './utils/filterCountries';
+export { getLocalizedCountryName } from './utils/getLocalizedCountryName';
 export { formatPopulation } from './utils/formatPopulation';
